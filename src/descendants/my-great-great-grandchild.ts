@@ -1,8 +1,8 @@
 import { consume } from "@lit/context";
 import { LitElement, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
-import { DataObjectInterface } from "./my.interfaces";
-import { myContext } from "./myContext";
+import { DataObjectInterface } from "../my.interfaces";
+import { myContext } from "../myContext";
 
 @customElement('my-great-great-grandchild')
 export class MyGreatGrandchild extends LitElement {

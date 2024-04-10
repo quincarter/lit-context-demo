@@ -1,8 +1,8 @@
 import { LitElement, html } from "lit";
 import { state, customElement } from "lit/decorators.js";
 import { consume } from "@lit/context";
-import { myContext } from "./myContext";
-import { DataObjectInterface } from "./my.interfaces"
+import { myContext } from "../myContext";
+import { DataObjectInterface } from "../my.interfaces"
 
 
 // my-grandchild.ts

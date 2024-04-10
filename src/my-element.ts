@@ -1,7 +1,7 @@
 import { provide } from '@lit/context';
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import './my-descendants';
+import './descendants/my-descendants';
 import { DataObjectInterface } from './my.interfaces';
 import { myContext } from './myContext';
 
