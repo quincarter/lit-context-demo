@@ -1,5 +1,7 @@
+import { Signal } from "@lit-labs/preact-signals";
+
 export interface DataObjectInterface {
-    name: string;
+    name: Signal<string>;
     title: string;
     description: string;
     metadata: ObjectMetaData;

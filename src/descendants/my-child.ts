@@ -1,11 +1,12 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, css } from "lit";
 import { property, state, customElement } from "lit/decorators.js";
-
+import { myDataObject } from "../global-state.signal";
+import { html } from "@lit-labs/preact-signals";
 // my-child.ts
 // only has a button in it with an array to keep track of the clicks/state
 @customElement('my-child')
 export class MyChild extends LitElement {
-  @property({ type: String, attribute: 'my-status' })
+  @state()
   myStatus = '';
 
   @state()
@@ -66,11 +67,11 @@ export class MyChild extends LitElement {
         </button>
         <button
           class="status-change ${
-            this.myStatus.toUpperCase() === 'REJECTED' ? 'success' : 'danger'
+            myDataObject.value.metadata.status.toUpperCase() === 'REJECTED' ? 'success' : 'danger'
           }"
           @click="${this._handleStatusUpdate}"
         >
-          ${this.myStatus.toUpperCase() === 'REJECTED' ? 'APPROVE' : 'REJECT'}
+          ${myDataObject.value.metadata.status.toUpperCase() === 'REJECTED' ? 'APPROVE' : 'REJECT'}
         </button>
       </div>
     `;
@@ -87,17 +88,22 @@ export class MyChild extends LitElement {
   }
 
   _handleStatusUpdate() {
-    this._createEvent(
-      'status-update',
-      this.myStatus.toUpperCase() === 'REJECTED' ? 'APPROVED' : 'REJECTED'
-    );
+    myDataObject.value = {
+      ...myDataObject.value,
+      metadata: {
+        ...myDataObject.value.metadata,
+        status: myDataObject.value.metadata.status.toUpperCase() === 'REJECTED' ? 'APPROVED' : 'REJECTED'
+      }
+    }
+    this.myStatus = myDataObject.value.metadata.status
   }
 
   _handleInput() {
-    this._createEvent(
-      'input-text-changed',
-      (this.shadowRoot?.querySelector('input[type=text]') as HTMLInputElement).value || ''
-    );
+    myDataObject.value.name.value = (this.shadowRoot?.querySelector('input[type=text]') as HTMLInputElement).value || ''
+    myDataObject.value = {
+      ...myDataObject.value,
+      name: myDataObject.value.name
+    }
   }
 
   _handleInputDate() {
@@ -110,6 +116,11 @@ export class MyChild extends LitElement {
   _handleButtonClick() {
     this.tags.push(`Tag-${this.numberValue}`);
     this.numberValue++;
-    this._createEvent('button-pushed', this.tags);
+
+    myDataObject.value = {
+      ...myDataObject.value,
+      tags: [...this.tags]
+    }
+    // this._createEvent('button-pushed', this.tags);
   }
 }
