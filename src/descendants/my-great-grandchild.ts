@@ -1,10 +1,10 @@
-import { LitElement, css } from "lit";
+import { LitElement, css, html } from "lit";
 import { customElement } from "lit/decorators.js";
 import { myDataObject } from "../global-state.signal";
-import { html } from "@lit-labs/preact-signals";
+import { SignalWatcher } from "@lit-labs/preact-signals";
 
-@customElement('my-great-grandchild')
-export class MyGreatGreatGrandchild extends LitElement {
+@customElement("my-great-grandchild")
+export class MyGreatGreatGrandchild extends SignalWatcher(LitElement) {
   static styles = [
     css`
       .wrapper {
@@ -62,23 +62,17 @@ export class MyGreatGreatGrandchild extends LitElement {
         <div class="wrapper-item">
           Status:
           <div
-            class="status ${
-              myDataObject.value.metadata.status.toUpperCase() === 'REJECTED'
-                ? 'danger'
-                : 'success'
-            }"
+            class="status ${myDataObject.value.metadata.status.toUpperCase() ===
+            "REJECTED"
+              ? "danger"
+              : "success"}"
           >
             ${myDataObject.value.metadata.status.toUpperCase()}
           </div>
         </div>
         <div class="wrapper-item">
           <div class="tags">
-            ${myDataObject.value.tags.map(
-              (item) =>
-                html`
-                  <div>${item}</div>
-                `
-            )}
+            ${myDataObject.value.tags.map((item) => html` <div>${item}</div> `)}
           </div>
         </div>
       </div>

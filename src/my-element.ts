@@ -1,12 +1,12 @@
-import { html } from '@lit-labs/preact-signals';
-import { LitElement, css } from 'lit';
-import { customElement } from 'lit/decorators.js';
-import './descendants/my-descendants';
-import { myDataObject } from './global-state.signal';
+import { SignalWatcher } from "@lit-labs/preact-signals";
+import { LitElement, css, html } from "lit";
+import { customElement } from "lit/decorators.js";
+import "./descendants/my-descendants";
+import { myDataObject } from "./global-state.signal";
 
 // my-element.ts
-@customElement('my-element')
-export class MyElement extends LitElement {  
+@customElement("my-element")
+export class MyElement extends SignalWatcher(LitElement) {
   static styles = [
     css`
       .container {

@@ -1,13 +1,13 @@
-import { LitElement, css } from "lit";
-import { property, state, customElement } from "lit/decorators.js";
+import { SignalWatcher } from "@lit-labs/preact-signals";
+import { LitElement, css, html } from "lit";
+import { customElement, state } from "lit/decorators.js";
 import { myDataObject } from "../global-state.signal";
-import { html } from "@lit-labs/preact-signals";
 // my-child.ts
 // only has a button in it with an array to keep track of the clicks/state
-@customElement('my-child')
-export class MyChild extends LitElement {
+@customElement("my-child")
+export class MyChild extends SignalWatcher(LitElement) {
   @state()
-  myStatus = '';
+  myStatus = "";
 
   @state()
   numberValue = 0;
@@ -66,12 +66,15 @@ export class MyChild extends LitElement {
           This is in the child. Click me to see magic happen
         </button>
         <button
-          class="status-change ${
-            myDataObject.value.metadata.status.toUpperCase() === 'REJECTED' ? 'success' : 'danger'
-          }"
+          class="status-change ${myDataObject.value.metadata.status.toUpperCase() ===
+          "REJECTED"
+            ? "success"
+            : "danger"}"
           @click="${this._handleStatusUpdate}"
         >
-          ${myDataObject.value.metadata.status.toUpperCase() === 'REJECTED' ? 'APPROVE' : 'REJECT'}
+          ${myDataObject.value.metadata.status.toUpperCase() === "REJECTED"
+            ? "APPROVE"
+            : "REJECT"}
         </button>
       </div>
     `;
@@ -92,24 +95,30 @@ export class MyChild extends LitElement {
       ...myDataObject.value,
       metadata: {
         ...myDataObject.value.metadata,
-        status: myDataObject.value.metadata.status.toUpperCase() === 'REJECTED' ? 'APPROVED' : 'REJECTED'
-      }
-    }
-    this.myStatus = myDataObject.value.metadata.status
+        status:
+          myDataObject.value.metadata.status.toUpperCase() === "REJECTED"
+            ? "APPROVED"
+            : "REJECTED",
+      },
+    };
+    this.myStatus = myDataObject.value.metadata.status;
   }
 
   _handleInput() {
-    myDataObject.value.name.value = (this.shadowRoot?.querySelector('input[type=text]') as HTMLInputElement).value || ''
+    myDataObject.value.name.value =
+      (this.shadowRoot?.querySelector("input[type=text]") as HTMLInputElement)
+        .value || "";
     myDataObject.value = {
       ...myDataObject.value,
-      name: myDataObject.value.name
-    }
+      name: myDataObject.value.name,
+    };
   }
 
   _handleInputDate() {
     this._createEvent(
-      'input-date-changed',
-      (this.shadowRoot?.querySelector('input[type=date]') as HTMLInputElement).value || ''
+      "input-date-changed",
+      (this.shadowRoot?.querySelector("input[type=date]") as HTMLInputElement)
+        .value || ""
     );
   }
 
@@ -119,8 +128,8 @@ export class MyChild extends LitElement {
 
     myDataObject.value = {
       ...myDataObject.value,
-      tags: [...this.tags]
-    }
+      tags: [...this.tags],
+    };
     // this._createEvent('button-pushed', this.tags);
   }
 }
